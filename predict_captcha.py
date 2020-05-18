@@ -1,13 +1,7 @@
-import pickle
 import numpy as np
 from numba import jit
 from PIL import Image
 # from itertools import product
-
-
-def load_obj(name):
-    with open(name + '.pkl', 'rb') as f:
-        return pickle.load(f)
 
 
 def gaussian_weight(h, w, sigma=0.8):
@@ -86,6 +80,4 @@ def predict(img, img_dict):
     p = np.concatenate([a1[:, 1][r1][:4], a2[:, 1][r2][:4]])
     prd = k[np.argsort(d)][:4][np.argsort(p[np.argsort(d)][:4])]
     return ''.join(prd)
-
-img_dict = load_obj('img_dict')
 
