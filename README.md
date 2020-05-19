@@ -10,16 +10,9 @@ A tool to bypass captcha while scraping Zhihu.com.
 ## Usage
 
 ```
-import pickle
 from predict_captcha import predict
 
-with open('img_dict.pkl', 'rb') as f:
-    img_dict = pickle.load(f)
-
-# Get Captcha
-# img = get_captcha()
-
-predict(img, img_dict)
+predict(img)
 ```
 
 ## Detail
