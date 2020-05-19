@@ -1,8 +1,13 @@
+import pickle
 import numpy as np
 from numba import jit
 from PIL import Image
 # from itertools import product
 
+with open('img_dict.pkl', 'rb') as f:
+    IMG_DICT = pickle.load(f)
+    
+MIN = min(list(map(lambda i: np.array(i).sum(), list(IMG_DICT.values()))))
 
 def gaussian_weight(h, w, sigma=0.8):
     x, y = np.meshgrid(np.linspace(-1, 1, w), np.linspace(-1, 1, h))
@@ -48,12 +53,15 @@ def mx(img, img_c):
 @jit(nopython=True)
 def scan_jit(mx1, mx2, wt):
     h1, w1 = mx1.shape
-    h2, w2 = mx2.shape
+    h2, w2 = mx2.shape 
     d_min = np.inf
     d_w = 0
     for h in range(h1 - h2):
         for w in range(w1 - w2):
-            abs_d = np.abs(mx1[h:h+h2, w:w+w2] - mx2)
+            mx1_sub = mx1[h:h+h2, w:w+w2]
+            if mx1_sub.sum() < 2 / 3 * MIN: 
+                continue
+            abs_d = np.abs(mx1_sub - mx2)
             d = (abs_d*wt).mean()
             if d < d_min:
                 d_min = d
@@ -67,12 +75,12 @@ def scan(img, img_c):
     return d_min, d_w
 
 
-def predict(img, img_dict):
+def predict(img):
     img1 = img.rotate(20, expand=True)
     img2 = img.rotate(-20, expand=True)
-    keys = np.array(list(img_dict.keys()))
-    a1 = np.array([scan(img1, img_dict[key]) for key in keys])
-    a2 = np.array([scan(img2, img_dict[key]) for key in keys])
+    keys = np.array(list(IMG_DICT.keys()))
+    a1 = np.array([scan(img1, IMG_DICT[key]) for key in keys])
+    a2 = np.array([scan(img2, IMG_DICT[key]) for key in keys])
     r1 = np.argsort(a1[:, 0])
     r2 = np.argsort(a2[:, 0])
     d = np.concatenate([a1[:, 0][r1][:4], a2[:, 0][r2][:4]])
