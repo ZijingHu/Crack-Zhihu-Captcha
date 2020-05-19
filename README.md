@@ -43,7 +43,7 @@ It is very likely that characters or numbers in the captcha overlap with each ot
 
 ### Hierarchical Clustering
 
-The prediction is made by comparing the difference between characters in our dictionary and sub area on the captcha and then picking the smallest one. Hierarchical clustering is used in this project to limit such comparison in a specific region. 
+The prediction is made by comparing the difference between characters in our dictionary and sub area on the captcha and then picking the smallest one. Hierarchical clustering is used here to limit such comparison in a specific region. 
 
 <br>
 <center>
@@ -55,7 +55,7 @@ The prediction is made by comparing the difference between characters in our dic
 </center>
 <br>
 
-A special case is shown below. If not using hierarchical clustering, the result will be "PUDG". If we use hierarchical clustering here, the "U" will not be chosen since it is not the optimal in its cluster and the "9" will be chosen instead.
+A special case is shown above. If not using hierarchical clustering, the result will be "PUDG". If we use hierarchical clustering here, the "U" will not be chosen since it is not the optimal in its cluster and the "9" will be chosen instead.
 
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
