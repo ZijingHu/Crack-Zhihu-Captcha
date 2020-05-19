@@ -2,6 +2,7 @@ import pickle
 import numpy as np
 from numba import jit
 from PIL import Image
+from sklearn.cluster import AgglomerativeClustering
 # from itertools import product
 
 with open('img_dict.pkl', 'rb') as f:
@@ -75,6 +76,20 @@ def scan(img, img_c):
     return d_min, d_w
 
 
+# def predict(img):
+#     img1 = img.rotate(20, expand=True)
+#     img2 = img.rotate(-20, expand=True)
+#     keys = np.array(list(IMG_DICT.keys()))
+#     a1 = np.array([scan(img1, IMG_DICT[key]) for key in keys])
+#     a2 = np.array([scan(img2, IMG_DICT[key]) for key in keys])
+#     r1 = np.argsort(a1[:, 0])
+#     r2 = np.argsort(a2[:, 0])
+#     d = np.concatenate([a1[:, 0][r1][:4], a2[:, 0][r2][:4]])
+#     k = np.concatenate([keys[r1][:4], keys[r2][:4]])
+#     p = np.concatenate([a1[:, 1][r1][:4], a2[:, 1][r2][:4]])
+#     prd = k[np.argsort(d)][:4][np.argsort(p[np.argsort(d)][:4])]
+#     return ''.join(prd)
+
 def predict(img):
     img1 = img.rotate(20, expand=True)
     img2 = img.rotate(-20, expand=True)
@@ -83,9 +98,18 @@ def predict(img):
     a2 = np.array([scan(img2, IMG_DICT[key]) for key in keys])
     r1 = np.argsort(a1[:, 0])
     r2 = np.argsort(a2[:, 0])
-    d = np.concatenate([a1[:, 0][r1][:4], a2[:, 0][r2][:4]])
-    k = np.concatenate([keys[r1][:4], keys[r2][:4]])
-    p = np.concatenate([a1[:, 1][r1][:4], a2[:, 1][r2][:4]])
-    prd = k[np.argsort(d)][:4][np.argsort(p[np.argsort(d)][:4])]
+    d = np.concatenate([a1[:, 0][r1], a2[:, 0][r2]])
+    k = np.concatenate([keys[r1], keys[r2]])
+    p = np.concatenate([a1[:, 1][r1], a2[:, 1][r2]])
+    r = np.argsort(p)
+    d, k, p = d[r], k[r], p[r]
+    prd = []
+    hc = AgglomerativeClustering(n_clusters=4).fit(p.reshape(-1, 1))
+    _, pos = np.unique(hc.labels_, return_index=True)
+    cluster_label = hc.labels_[np.sort(pos)]
+    for label in cluster_label:
+        d_cluster = d[hc.labels_==label]
+        k_cluster = k[hc.labels_==label]
+        prd.append(k_cluster[np.argsort(d_cluster)][0])
     return ''.join(prd)
 
