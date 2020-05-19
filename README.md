@@ -5,7 +5,7 @@ A tool to bypass captcha while scraping Zhihu.com.
 
 ## Demo
 
-<img src="demo/demo2.png" width=75%>
+<img src="demo/demo2.png" width=55%>
 
 ## Usage
 
@@ -19,7 +19,7 @@ predict(img)
 
 <br>
 <center>
-<img src="demo/anime.gif" width=30%>
+<img src="demo/anime.gif" width=15%>
 </center>
 <br>
 
@@ -27,7 +27,7 @@ This project uses travelsal to calculate the difference between each character i
 
 <br>
 <center>
-<img src="demo/demo.png" width=50%>
+<img src="demo/demo.png" width=30%>
 </center>
 <br>
 
@@ -37,7 +37,7 @@ It is very likely that characters or numbers in the captcha overlap with each ot
 
 <br>
 <center>
-<img src="demo/demo3.png" width=30%>
+<img src="demo/demo3.png" width=20%>
 </center>
 <br>
 
@@ -47,11 +47,11 @@ The prediction is made by comparing the difference between characters in our dic
 
 <br>
 <center>
-<img src="demo/pred.png" width=25%>
+<img src="demo/pred.png" width=15%>
 </center>
 
 <center>
-<img src="demo/mp.png" width=85%>
+<img src="demo/mp.png" width=65%>
 </center>
 <br>
 
