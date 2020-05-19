@@ -24,7 +24,7 @@ predict(img, img_dict)
 
 ## Detail
 
-This project uses travelsal to calculate the difference between each character in our [dictionary](\dictionary) and every sub block in the picture of captcha, and concludes in characters with top four smallest difference as our final answer.
+This project uses travelsal to calculate the difference between each character in our [dictionary](/dictionary) and every sub block in the picture of captcha, and concludes in characters with top four smallest difference as our final answer.
 
 <br>
 
